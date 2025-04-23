@@ -29,7 +29,7 @@ class LGBMultiClassifier(Model):
         self._num_boost_rounds = num_boost_rounds
         self._callbacks: list[Callable[..., Any]] = [
             lgb.log_evaluation(period=log_eval_period),
-            lgb.early_stopping(early_stopping_rounds, verbose=True),
+            lgb.early_stopping(early_stopping_rounds, verbose=bool(log_eval_period)),
         ]
 
         self._is_fitted: bool = False
