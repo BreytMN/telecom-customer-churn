@@ -145,7 +145,7 @@ class ConformalClassifier:
 
         return self
 
-    def calibrate(self, df: pd.DataFrame) -> None:
+    def calibrate(self, df: pd.DataFrame) -> Self:
         X, y = df.filter(self._features), df[self._label]
         n = X.shape[0]
         cal_smx = self._model.predict(X).values
@@ -155,6 +155,8 @@ class ConformalClassifier:
         self._calibration_scores = cast(np.ndarray, cal_scores)
         self._thresholds = {alpha: self._calibrate(alpha) for alpha in self._alphas}
         self._is_calibrated = True
+
+        return self
 
     def _calibrate(self, alpha: float) -> float:
         if self._calibration_scores is None:
